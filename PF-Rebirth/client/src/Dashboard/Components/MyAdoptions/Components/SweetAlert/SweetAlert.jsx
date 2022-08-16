@@ -1,9 +1,11 @@
-import React from 'react';
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-// import 'sweetalert2/dist/sweetalert2.css'
+// import React from 'react';
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/dist/sweetalert2.css";
 import './SweetAlert.css'
+import { successAdoption } from "../../../../../Redux/Actions";
 
- export default function Swalert(dogName){
+ export default function Swalert(dogName, deletePost ,id, petId ){
+
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: 'rebirth-button pink',
@@ -12,7 +14,7 @@ import './SweetAlert.css'
     buttonsStyling: false
   })
   swalWithBootstrapButtons.fire({
-    title: 'Are you sure you want adopt '+dogName+'?',
+    title: 'Are you sure you want to give '+dogName+'?',
     text: "",
     icon: 'question',
     showCancelButton: true,
@@ -23,16 +25,19 @@ import './SweetAlert.css'
     if (result.isConfirmed) {
       swalWithBootstrapButtons.fire(
         'Adopted',
-        'Take care of '+dogName,
+        `Yay! ${dogName} has found a forever home`,
         'success'
-      )
+      ).then(()=>{
+        successAdoption(id)
+        deletePost(petId)
+       })
     } else if (
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
     ) {
       swalWithBootstrapButtons.fire(
         'No this time',
-        'Dont worry,'+dogName+' gonna find a good home',
+        'Dont worry,'+dogName+' is going to find a good home',
         'error'
       )
     }

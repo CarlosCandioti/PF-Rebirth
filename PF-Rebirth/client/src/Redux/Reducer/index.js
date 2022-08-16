@@ -1,28 +1,47 @@
 import {
-  GET_PETS,
   GET_TYPES,
   GET_DETAILS,
   GET_USER,
   GET_NAMES,
   GET_USER_ID,
-  ORDER_BY_AGE,
-  FILTER_BY_SIZE,
-  FILTER_BY_LOCATION,
   POST_PET,
   POST_USER,
-  FILTER_BY_SEX,
-  FULL_FILTER_AGE,
-  NO_FILTER_PETS,
-  FULL_FILTER_SEX,
-  FULL_FILTER_LOCATION,
-  FULL_FILTER_SIZE,
   MERCADO_PAGO,
   GET_LOCATION,
-  LOGIN_USER
+  LOGIN_USER,
+  GET_MESSAGE,
+  GET_CHAT,
+  POST_MESSAGE,
+  SAVE_ADOPTION_ID,
+  LOGOUT_USER,
+  FAVORITES,
+  DELETE_FAVORITES,
+  GET_FAVORITES,
+  UPDATE_PROFILE,
+  RESET_DETAILS,
+  RESET_PETS,
+  DELETE_USER,
+  DELETE_PET,
+  USERS_BANNED,
+  USER_RESTORE,
+  GET_USERNAME,
+  MAKE_ADMIN,
+
+  DELETE_ADOPTION,
+  CREA_UPDATE_NOTIFICATION,
+  NOTIFICATION,
+  VISTO_NOTIFICATION,
+
+  DELETE_POST,
+  SAVE_ID,
+  ADOTION_HISTORY_ADMIN,
+  GET_TESTIMONIALS
+  // DELETE_ADOPTION, -> warning
+
 } from "../Actions/actionTypes";
 
 const initialState = {
-  activeUser : null,
+  activeUser: null,
   filterSex: "All",
   filterAge: "age",
   filterSize: "Any",
@@ -33,104 +52,189 @@ const initialState = {
   user: [],
   userDetail: [],
   typePet: [],
-  location:[]
+  location: [],
+  message: [],
+  adoptionChat: [],
+  adoptionId: "",
+  favorite: [],
+  allPets: [],
+  profileView: {},
+  petsPrueba: {},
+  prueba: [],
+  savedName: "",
+  userDeleted: [],
+  userBanned: [],
+  admins: [],
+  favoritesSaved : [],
+  historyAdmin: [],
+  testimonials: [],
+
+  notification:false,
+
+  saveId : "",
+
+
 };
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+
+    case GET_TESTIMONIALS:
+      return {
+        ...state,
+        testimonials: action.payload
+      }
+
+    case CREA_UPDATE_NOTIFICATION:
+      return {
+        ...state
+      }
+
+    case ADOTION_HISTORY_ADMIN:
+      return {
+        ...state,
+        historyAdmin: action.payload
+      }
+
+    case VISTO_NOTIFICATION:
+      return {
+        ...state,
+        notification:action.payload
+     }
+    
+    case NOTIFICATION:
+           return {
+        ...state,
+        notification:action.payload
+      }
+
+    case "SAVE_FAVORITES":
+      return {
+        ...state,
+        favoritesSaved: action.payload,
+      };
+    case "SAVE_NAME":
+      return {
+        ...state,
+        savedName: action.payload,
+      };
+    case "PAGINATE_DATA":
+      return {
+        ...state,
+        prueba: action.payload,
+      };
+    case DELETE_POST: 
+    return{
+      ...state
+    };
+    case DELETE_PET:
+      return {
+        ...state,
+      };
+      case SAVE_ID:{
+        return{
+          ...state,
+          saveId : action.payload
+        }
+      }
+    case "PRUEBA":
+      return {
+        ...state,
+        activeUser: action.payload,
+      };
+    case GET_USERNAME:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case USERS_BANNED:
+      return {
+        ...state,
+        userBanned: action.payload,
+      };
+    case USER_RESTORE:
+      return {
+        ...state,
+      };
     case LOGIN_USER:
       return {
         ...state,
-        activeUser : action.payload
-      }
+        activeUser: action.payload,
+      };
+    case LOGOUT_USER:
+      localStorage.clear();
+      return {
+        ...state,
+        activeUser: null,
+      };
+    case UPDATE_PROFILE:
+      return {
+        ...state,
+        profileView: action.payload,
+      };
     case GET_TYPES:
       return {
         ...state,
         typePet: action.payload,
       };
-    case GET_PETS:
 
-      ///////////////////////////////////filtrando ordenados por tamaño/////////////////////////
-      let ordenado = [];
-      ordenado =
-        state.filterSize === "Any"
-          ? action.payload
-          : action.payload.filter((p) => p.size === state.filterSize);
-
-      ///////////////////////////////////filtrando ordenados por sexo///////////////////////////////
-      ordenado =
-        state.filterSex === "All"
-          ? ordenado
-          : ordenado.filter((e) => e.gender === state.filterSex);
-      ///////////////////////////////////////filtrando por locacion///////////////////////////
-      ordenado =
-        state.filterLocation === "All"
-          ? ordenado
-          : ordenado.filter((e) => e.location === state.filterLocation);
-
-      ///////////////////////////ordenando "ordenados" por edad///////////////////////
-       if (state.filterAge === "old") {
-        ordenado = ordenado.sort((a, b) => {
-          return b.age - a.age;
-        });
-      } 
-      if (state.filterAge === "young") {
-        ordenado = ordenado.sort((a, b) => {
-          return a.age - b.age;
-        });
-      }
+    case GET_MESSAGE:
       return {
         ...state,
-        pets: action.payload,
-        filteredPets:[...ordenado]
-
-        };
+        message: action.payload,
+      };
+    case POST_MESSAGE:
+      return {
+        ...state,
+      };
+    case SAVE_ADOPTION_ID:
+      return {
+        ...state,
+        adoptionId: action.payload,
+      };
+    case GET_CHAT:
+      return {
+        ...state,
+        adoptionChat: action.payload,
+      };
     case GET_USER:
       return {
         ...state,
         user: action.payload,
       };
+    case MAKE_ADMIN:
+      return {
+        ...state,
+        admins: action.payload,
+      };
+    case DELETE_USER:
+      return {
+        ...state,
+        userDeleted: action.payload,
+      };
+
     case GET_DETAILS:
       return {
         ...state,
         detail: action.payload,
       };
-    case GET_NAMES:
-   
-      ///////////////////////////////////filtrando ordenados por tamaño/////////////////////////
-      let ordenadoName = [];
-      ordenadoName =
-        state.filterSize === "Any"
-          ? action.payload
-          : action.payload.filter((p) => p.size === state.filterSize);
 
-      ///////////////////////////////////filtrando ordenados por sexo///////////////////////////////
-      ordenadoName =
-        state.filterSex === "All"
-          ? ordenadoName
-          : ordenadoName.filter((e) => e.gender === state.filterSex);
-      ///////////////////////////////////////filtrando por locacion///////////////////////////
-      ordenadoName =
-        state.filterLocation === "All"
-          ? ordenadoName
-          : ordenadoName.filter((e) => e.location === state.filterLocation);
-
-      ///////////////////////////ordenando "ordenados" por edad///////////////////////
-       if (state.filterAge === "old") {
-        ordenadoName = ordenadoName.sort((a, b) => {
-          return b.age - a.age;
-        });
-      } 
-      if (state.filterAge === "young") {
-        ordenadoName = ordenadoName.sort((a, b) => {
-          return a.age - b.age;
-        });
-      }
+    case RESET_DETAILS:
       return {
         ...state,
-        pets: action.payload,
-        filteredPets:[...ordenadoName]
-        
+        detail: [],
+        allPets: [],
+      };
+    case RESET_PETS:
+      return {
+        ...state,
+        pets: [],
+        filteredPets: [],
+      };
+    case GET_NAMES:
+      return {
+        ...state,
+        prueba: action.payload,
       };
     case POST_PET:
       return {
@@ -151,157 +255,26 @@ function rootReducer(state = initialState, action) {
         ...state,
       };
     case GET_LOCATION:
-        return{
-          ...state,
-          location: action.payload
-        }
+      return {
+        ...state,
+        location: action.payload,
+      };
 
-    case ORDER_BY_AGE:
-      return { ...state, filterAge: action.payload };
-
-    case FILTER_BY_SIZE:
-      return { ...state, filterSize: action.payload };
-
-    case FILTER_BY_SEX:
-      return { ...state, filterSex: action.payload };
-
-    case FILTER_BY_LOCATION:
-      return { ...state, filterLocation: action.payload };
-    case NO_FILTER_PETS:
-      return { ...state, filteredPets: state.pets };
-    case FULL_FILTER_AGE:
-      ///////////////////////////////////filtrando ordenados por tamaño/////////////////////////
-      let ordenadoAge = [];
-      ordenadoAge =
-        state.filterSize === "Any"
-          ? state.pets
-          : state.pets.filter((p) => p.size === state.filterSize);
-
-      ///////////////////////////////////filtrando ordenados por sexo///////////////////////////////
-      ordenadoAge =
-        state.filterSex === "All"
-          ? ordenadoAge
-          : ordenadoAge.filter((e) => e.gender === state.filterSex);
-      ///////////////////////////////////////filtrando por locacion///////////////////////////
-      ordenadoAge =
-        state.filterLocation === "All"
-          ? ordenadoAge
-          : ordenadoAge.filter((e) => e.location === state.filterLocation);
-
-      ///////////////////////////ordenando "ordenados" por edad///////////////////////
-       if (action.payload === "old") {
-        ordenadoAge = ordenadoAge.sort((a, b) => {
-          return b.age - a.age;
-        });
-      } 
-      if (action.payload === "young") {
-        ordenadoAge = ordenadoAge.sort((a, b) => {
-          return a.age - b.age;
-        });
-      }
-      return { ...state, filteredPets: [...ordenadoAge] };
-
-
-    case FULL_FILTER_SEX:
-     ///////////////////////////////////filtrando ordenados por tamaño/////////////////////////
-     let ordenadoSex = [];
-     ordenadoSex =
-       state.filterSize === "Any"
-         ? state.pets
-         : state.pets.filter((p) => p.size === state.filterSize);
-
-     ///////////////////////////////////filtrando ordenados por sexo///////////////////////////////
-     ordenadoSex =
-       action.payload === "All"
-         ? ordenadoSex
-         : ordenadoSex.filter((e) => e.gender === action.payload);
-     ///////////////////////////////////////filtrando por locacion///////////////////////////
-     ordenadoSex =
-       state.filterLocation === "All"
-         ? ordenadoSex
-         : ordenadoSex.filter((e) => e.location === state.filterLocation);
-
-     ///////////////////////////ordenando "ordenados" por edad///////////////////////
-      if (state.filterAge === "old") {
-       ordenadoSex = ordenadoSex.sort((a, b) => {
-         return b.age - a.age;
-       });
-     } 
-     if (state.filterAge === "young") {
-       ordenadoSex = ordenadoSex.sort((a, b) => {
-         return a.age - b.age;
-       });
-     }
-     return { ...state, filteredPets: [...ordenadoSex] };
-
-
-
-    case FULL_FILTER_LOCATION:
-
-    ///////////////////////////////////filtrando ordenados por tamaño/////////////////////////
-    let ordenadoLocation = [];
-    ordenadoLocation =
-      state.filterSize === "Any"
-        ? state.pets
-        : state.pets.filter((p) => p.size === state.filterSize);
-
-    ///////////////////////////////////filtrando ordenados por sexo///////////////////////////////
-    ordenadoLocation =
-      state.filterSex === "All"
-        ? ordenadoLocation
-        : ordenadoLocation.filter((e) => e.gender === state.filterSex);
-    ///////////////////////////////////////filtrando por locacion///////////////////////////
-    ordenadoLocation =
-      action.payload === "All"
-        ? ordenadoLocation
-        : ordenadoLocation.filter((e) => e.location === action.payload);
-
-    ///////////////////////////ordenando "ordenados" por edad///////////////////////
-     if (state.filterAge === "old") {
-      ordenadoLocation = ordenadoLocation.sort((a, b) => {
-        return b.age - a.age;
-      });
-    } 
-    if (state.filterAge === "young") {
-      ordenadoLocation = ordenadoLocation.sort((a, b) => {
-        return a.age - b.age;
-      });
-    }
-    return { ...state, filteredPets: [...ordenadoLocation] };
-
-
-
-    case FULL_FILTER_SIZE:
-       ///////////////////////////////////filtrando ordenados por tamaño/////////////////////////
-       let ordenadoSize = [];
-       ordenadoSize =
-         action.payload === "Any"
-           ? state.pets
-           : state.pets.filter((p) => p.size === action.payload);
- 
-       ///////////////////////////////////filtrando ordenados por sexo///////////////////////////////
-       ordenadoSize =
-         state.filterSex === "All"
-           ? ordenadoSize
-           : ordenadoSize.filter((e) => e.gender === state.filterSex);
-       ///////////////////////////////////////filtrando por locacion///////////////////////////
-       ordenadoSize =
-         state.filterLocation === "All"
-           ? ordenadoSize
-           : ordenadoSize.filter((e) => e.location === state.filterLocation);
- 
-       ///////////////////////////ordenando "ordenados" por edad///////////////////////
-        if (state.filterAge === "old") {
-         ordenadoSize = ordenadoSize.sort((a, b) => {
-           return b.age - a.age;
-         });
-       } 
-       if (state.filterAge === "young") {
-         ordenadoSize = ordenadoSize.sort((a, b) => {
-           return a.age - b.age;
-         });
-       }
-       return { ...state, filteredPets: [...ordenadoSize] };
+    case FAVORITES:
+      return {
+        ...state,
+        favorite: action.payload,
+      };
+    case DELETE_FAVORITES:
+      return {
+        ...state,
+        favorite: action.payload,
+      };
+    case GET_FAVORITES:
+      return {
+        ...state,
+        favorite: action.payload,
+      };
 
     default:
       return state;

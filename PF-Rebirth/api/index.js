@@ -1,32 +1,28 @@
-//                       _oo0oo_
-//                      o8888888o
-//                      88" . "88
-//                      (| -_- |)
-//                      0\  =  /0
-//                    ___/`---'\___
-//                  .' \\|     |// '.
-//                 / \\|||  :  |||// \
-//                / _||||| -:- |||||- \
-//               |   | \\\  -  /// |   |
-//               | \_|  ''\---/''  |_/ |
-//               \  .-\__  '-'  ___/-. /
-//             ___'. .'  /--.--\  `. .'___
-//          ."" '<  `.___\_<|>_/___.' >' "".
-//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-//         \  \ `_.   \_ __\ /__ _/   .-` /  /
-//     =====`-.____`.___ \_____/___.-`___.-'=====
-//                       `=---='
-//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
-const { getPets } = require('./src/tools/preCharge.js');
-require("dotenv").config();
+//    
+//
+//
+//    ░░░░░░▄█▄█░░░░░▄░░░░░░
+//    ░░░░██████░░░░░░█░░░░░
+//    ░░░░░░███████████░░░░░
+//    ▒▒▒▒▒▒█▀▀█▀▀██▀██▒▒▒▒▒
+//    ▒▒▒▒▒▄█▒▄█▒▒▄█▒▄█▒▒▒▒▒
+//    ~~~~~~~~~~~~~~~~~~~~~~
+const server = require("./src/app.js");
+const { conn } = require("./src/db.js");
+const { getPets } = require("./src/tools/preCharge.js");
+const { getAdmin } = require("./src/tools/preChargeAdmin.js");
 
-// const PORT = process.env.PORT 
-// Syncing all the models at once.
+const { getTestimonials } = require("./src/tools/preChargeTestimonials.js");
+
+const { PORT } = process.env;
+
 conn.sync({ force: false }).then(async () => {
-  await getPets()
-  server.listen(process.env.PORT, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+  await getTestimonials();
+  await getAdmin();
+  await getPets();
+
+
+  server.listen(PORT || 3001, () => {
+    console.log("%s listening at 3001"); // eslint-disable-line no-console
   });
 });

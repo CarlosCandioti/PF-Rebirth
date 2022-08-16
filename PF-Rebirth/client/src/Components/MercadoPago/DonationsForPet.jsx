@@ -6,16 +6,14 @@ import './MercadoPago.css';
 export default function DonationsForPet({id}) {
 
     const dispatch = useDispatch();
+
     const {
-        age, description, gender, image,
-        location, name, race, size, type,
+        description, image, name,
     } = useSelector(state => state.detail)
 
     useEffect(()=> {
         if(id) dispatch(getDetails(id))
     }, [dispatch, id])
-
-    console.log()
 
     return (
             !id ? 

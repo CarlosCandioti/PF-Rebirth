@@ -1,45 +1,53 @@
-import React, { useState } from "react";
+import React from "react"; //warning-> { useState }
 import Chat from "./Chat";
 import "./MessageBoard.css";
 
 import { useEffect } from "react";
-export default function MessageBoard({ chatId = 1, userId = 1, userId2 = 2 }) {
-  let [conversation, setConversation] = useState([
-    { userMsgId: 1, msg: "hola", new: false },
-    { userMsgId: 2, msg: "adios", new: true },
-  ]);
-  let [newAd, setNewAd] = useState("");
+import { useDispatch, useSelector } from "react-redux";
+import { getChat } from "../../../../../Redux/Actions"; //warning-> getMessage
 
-  function newAdvisor(n) {
-    setNewAd(n);
-  }
+export default function MessageBoard() {
+  let mail = "";
+  const allMessages = useSelector((state) => state.message);
+  const adoptChat = useSelector((state) => state.adoptionChat);
+  const dispatch = useDispatch();
+  const infoStorage = localStorage.getItem("user");
+  const user = JSON.parse(infoStorage);
+  if (infoStorage) mail = user.mail;
 
+  let otherMail = "";
+
+  if (allMessages.length > 0)
+    otherMail =
+      allMessages[0].adoption.ownerMail === mail
+        ? allMessages[0].adoption.userMail
+        : allMessages[0].adoption.ownerMail;
+  let chat = document.getElementsByClassName("container-lateral-bar").length;
   useEffect(() => {
-    let chatInterval = setInterval(() => {
-      setConversation([
-        ...conversation,
-        { userMsgId: Math.round(Math.random() * 2), msg: "adios" },
-      ]);
-      console.log(conversation);
-    }, 10000);
+    chat && dispatch(getChat(mail));
+    let chatUpdate =
+      chat &&
+      setInterval(() => {
+        dispatch(getChat(mail));
+      }, 2000);
 
-    return () => clearInterval(chatInterval);
-  });
+    setTimeout(() => {
+      document.getElementsByClassName("container-lateral-bar").length &&
+        document.getElementsByClassName("container-lateral-bar")[0].click();
+    }, 500);
+    return () => clearInterval(chatUpdate);
+  }, [dispatch, chat, mail]);
 
   return (
     <React.Fragment>
       <div className="msg-container">
-        <div className="chat-title"> Message Board<img src="" alt="" /></div>
+        <div className="chat-title">
+          {" "}
+          Message Board
+          <img src="" alt="" />
+        </div>
         <div className="chat-container">
-          <Chat
-            id={chatId}
-            userId={userId}
-            userPhoto={""}
-            userId2={userId2}
-            userPhoto2={""}
-            conversation={conversation}
-            advisor={newAdvisor}
-          />
+          <Chat allMessages={allMessages} otherMail={otherMail} />
         </div>
       </div>
     </React.Fragment>

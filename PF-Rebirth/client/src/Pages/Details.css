@@ -8,7 +8,8 @@
   color: var(--text-color-sec);
   word-wrap: break-word;
   text-align: center;
-  margin: 10px 1% 10px 1%;
+  /* margin: 10px 1% 10px 1%; */
+  margin: 5rem auto;
   overflow: hidden;
 }
 
@@ -51,6 +52,16 @@
   margin-bottom: 10pt;
   letter-spacing: 3px;
   text-transform: capitalize;
+}
+
+.dtl-cardLeft .mail {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  text-align: left;
+  margin-bottom: 10pt;
+  vertical-align: text-bottom;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .dtl-cardLeft .breed {
@@ -136,6 +147,7 @@
 
 .a-btnFav {
   position: absolute;
+  border: none;
   left: 3%;
   top: 2%;
   width: 45px;
@@ -146,6 +158,17 @@
 
 .a-btnFav:hover {
   position: absolute;
+  left: 3%;
+  top: 2%;
+  width: 45px;
+  height: 43px;
+  cursor: pointer;
+  background: url(../Assets/botonFAV_active.png);
+}
+
+.a-btnFavEliminar {
+  position: absolute;
+  border: none;
   left: 3%;
   top: 2%;
   width: 45px;
@@ -195,7 +218,7 @@
   margin-top: 2rem;
   font-size: 18px;
   font-family: 'Mochiy Pop One';
-  color: var(--text-color-sec);
+  color: var(--text-color-pag);
   background: var(--backgroundBttn2);
   border: 1px solid transparent;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -203,15 +226,15 @@
   cursor: pointer;
   text-decoration: none;
 }
+
 .b-btn {
   width: 150px;
   height: 40px;
   text-transform: uppercase;
   margin-top: 2rem;
-  margin-left: .8rem;
   font-size: 18px;
   font-family: 'Mochiy Pop One';
-  color: var(--text-color-sec);
+  color: var(--text-color-pag);
   background: var(--backgroundBttn2);
   border: 1px solid transparent;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -221,7 +244,7 @@
 }
 
 .a-btn:hover {
-  background: var(--text-color);
+  background: var(--pink);
   border: 1px solid var(--border);
 }
 
@@ -236,7 +259,7 @@
 }
 
 .b-btn:hover {
-  background: var(--text-color);
+  background: var(--pink);
   border: 1px solid var(--border);
 }
 
@@ -248,4 +271,20 @@
 .b-btn:active {
   background: var(--text-color);
   border: 1px solid var(--border);
+}
+
+@media only screen and (max-width: 1200px) {
+  .dtl-card {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .dtl-cardLeft,
+  .dtl-cardCenter,
+  .title {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin-top: 4%;
+  }
 }
